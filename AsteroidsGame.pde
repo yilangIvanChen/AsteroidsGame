@@ -1,10 +1,14 @@
-//your variable declarations here
-public void setup() 
-{
-  //your code here
-}
-public void draw() 
-{
-  //your code here
-}
+///////////////////////////////////VARIABLES/////////////////////////////////////
 
+Spaceship pleasespeedineedthis = new Spaceship ();
+
+////////////////////////////////DRAWING STUFF////////////////////////////////////////
+
+
+public void setup() {
+  size(600,600);
+  background(150, 60, 255);
+}
+public void draw() {
+  pleasespeedineedthis.show();
+}
