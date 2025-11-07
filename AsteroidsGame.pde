@@ -1,7 +1,7 @@
 ///////////////////////////////////VARIABLES/////////////////////////////////////
 
 Spaceship pleasespeedineedthis = new Spaceship();
-Star[] benjaminneyman = new Star[64];
+Star[] benjaminneyman = new Star[49];
 
 ////////////////////////////////DRAWING STUFF////////////////////////////////////////
 
@@ -11,7 +11,7 @@ public void setup() {
   background(150, 60, 255);
   for (int j = 0; j < 8; j++) {
     for (int i = 0; i < 8; i++) {
-      benjaminneyman[i] = new Star((int)(Math.random()*100)+100*i, (int)(Math.random()*100)+100*j);
+      benjaminneyman[i] = new Star((int)(Math.random()*114)+114*i, (int)(Math.random()*114)+114*j);
       benjaminneyman[i].show();
     }
   }
