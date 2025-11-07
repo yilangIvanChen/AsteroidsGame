@@ -9,4 +9,27 @@ class Spaceship extends Floater {
     myXspeed = 0;
     myYspeed = 0;
   }
+
+  ///////////////getters for the asteroids later
+
+  public int getSpaceshipX() {
+    return (int)myCenterX;
+  }
+
+  public int getSpaceshipY() {
+    return (int)myCenterY;
+  }
+
+  ///////////////////setters (prob for the hyperspace thing)
+
+  public void setSpaceshipX(int x) {
+    myCenterX = x;
+  }
+
+  public void setSpaceshipY(int y) {
+    myCenterY = y;
+  }
+  
+  ///////////////////movement
+
 }
