@@ -59,7 +59,7 @@ class Floater //Do NOT modify the Floater class! Make changes in the Spaceship c
     rotate(dRadians);
 
     //draw the polygon
-    stroke(0);////////////////////////modified here
+    stroke(#80AAE3);////////////////////////modified here
     beginShape();
     for (int nI = 0; nI < corners; nI++)
     {
