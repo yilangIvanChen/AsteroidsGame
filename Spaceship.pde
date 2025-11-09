@@ -8,6 +8,7 @@ class Spaceship extends Floater {
     myColor = (#D6E7FF);
     myXspeed = 0;
     myYspeed = 0;
+    //private double limiters (maybe)
   }
 
   ///////////////getters for the asteroids later
@@ -29,7 +30,24 @@ class Spaceship extends Floater {
   public void setSpaceshipY(int y) {
     myCenterY = y;
   }
-  
-  ///////////////////movement
 
+  public void constantDecel() {
+    if (myXspeed > 0)///////////////////constantly decels to zero (not accurate to space but womp womp)
+      myXspeed -= .05;
+    if (myXspeed < 0)
+      myXspeed += .035;
+    if (myYspeed > 0)
+      myYspeed -= .05;
+    if (myYspeed < 0)
+      myYspeed += .035;
+      
+    if (myXspeed > 7)////////////////////limits speed to my thing playable
+      myXspeed = 7;
+    if (myXspeed < -4)
+      myXspeed = -4;
+    if (myYspeed > 7)
+      myYspeed = 7;
+    if (myYspeed < -4)
+      myYspeed = -4;
+  }
 }
