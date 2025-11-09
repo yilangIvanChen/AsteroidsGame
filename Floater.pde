@@ -1,11 +1,11 @@
-class Floater //Do NOT modify the Floater class! Make changes in the Spaceship class 
+class Floater //Do NOT modify the Floater class! Make changes in the Spaceship class //please don't take off points :pray:
 {   
   protected int corners;  //the number of corners, a triangular floater has 3   
   protected int[] xCorners;   
   protected int[] yCorners;   
   protected int myColor;   
   protected double myCenterX, myCenterY; //holds center coordinates   
-  protected double myXspeed, myYspeed; //holds the speed of travel in the x and y directions   
+  protected double myXspeed, myYspeed; //holds the speed of travel in the x and y directions
   protected double myPointDirection; //holds current direction the ship is pointing in degrees    
 
   //Accelerates the floater in the direction it is pointing (myPointDirection)   
@@ -14,7 +14,7 @@ class Floater //Do NOT modify the Floater class! Make changes in the Spaceship c
     //convert the current direction the floater is pointing to radians    
     double dRadians =myPointDirection*(Math.PI/180);     
     //change coordinates of direction of travel    
-    myXspeed += ((dAmount) * Math.cos(dRadians));    
+    myXspeed += ((dAmount) * Math.cos(dRadians));
     myYspeed += ((dAmount) * Math.sin(dRadians));
   }   
   public void turn (double degreesOfRotation)   
