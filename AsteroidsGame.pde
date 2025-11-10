@@ -2,6 +2,11 @@
 
 Spaceship financiallystable = new Spaceship();
 Star[][] benjaminneyman = new Star[8][8];
+boolean pressingW = false;
+boolean pressingS = false;
+boolean pressingD = false;
+boolean pressingA = false;
+boolean pressingSpace = false;
 
 ////////////////////////////////DRAWING STUFF/////////////////////////////////////////////////
 
@@ -22,22 +27,20 @@ public void draw() {
     for (int i = 0; i < 8; i++)
       benjaminneyman[j][i].show();
   }
-  
-  if (keyPressed){
-   if (key == 'w')
+
+  if (pressingW)
     financiallystable.accelerate(.2);
-  if (key == 's')
+  if (pressingS)
     financiallystable.accelerate(-.2);
-  if (key == 'a')
-    financiallystable.turn(1.5);
-  if (key == 'd')
-    financiallystable.turn(-1.5);
-  if (key == 'w' && key == 'r')///////////////////ask about how to make mulitple keys register
-    System.out.println("adfjalsdfkj");
-  }
+  if (pressingA)
+    financiallystable.turn(2);
+  if (pressingD)
+    financiallystable.turn(-2);
+  if (pressingSpace)
+    financiallystable.brake();
     
+  financiallystable.speedLimit();
   financiallystable.move();
-  financiallystable.constantDecel();
   financiallystable.show();
 }
 
@@ -45,14 +48,28 @@ public void draw() {
 ////////////////////////////////////KEY PRESSING STUFF///////////////////////////////////////
 
 
+public void keyPressed() {
+  if (key == 'w')
+    pressingW = true;
+  if (key == 's')
+    pressingS = true;
+  if (key == 'a')
+    pressingA = true;
+  if (key == 'd')
+    pressingD = true;
+  if (key == ' ')
+    pressingSpace = true;
+}
 
-
-
-
-
-
-
-
-
-
-
+public void keyReleased() {
+  if (key == 'w')
+    pressingW = false;
+  if (key == 's')
+    pressingS = false;
+  if (key == 'a')
+    pressingA = false;
+  if (key == 'd')
+    pressingD = false;
+  if (keyCode == ' ')
+    pressingSpace = false;
+}
