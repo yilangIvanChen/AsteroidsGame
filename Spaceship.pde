@@ -31,23 +31,25 @@ class Spaceship extends Floater {
     myCenterY = y;
   }
 
-  public void constantDecel() {
+  public void brake() {
     if (myXspeed > 0)///////////////////constantly decels to zero (not accurate to space but womp womp)
-      myXspeed -= .05;
+      myXspeed -= .1;
     if (myXspeed < 0)
-      myXspeed += .035;
+      myXspeed += .07;
     if (myYspeed > 0)
-      myYspeed -= .05;
+      myYspeed -= .1;
     if (myYspeed < 0)
-      myYspeed += .035;
-      
-    if (myXspeed > 7)////////////////////limits speed to my thing playable
-      myXspeed = 7;
-    if (myXspeed < -4)
-      myXspeed = -4;
-    if (myYspeed > 7)
-      myYspeed = 7;
-    if (myYspeed < -4)
-      myYspeed = -4;
+      myYspeed += .07;
+  }
+  
+  public void speedLimit(){
+    if (myXspeed > 5)////////////////////limits speed to my thing playable
+      myXspeed = 5;
+    if (myXspeed < -3)
+      myXspeed = -3;
+    if (myYspeed > 5)
+      myYspeed = 5;
+    if (myYspeed < -3)
+      myYspeed = -3;
   }
 }
