@@ -1,3 +1,22 @@
+/*
+to do (or not to do):
+to the ship: shoot stuff; hp; level and exp system (exponential exp req); stats; abilities and cooldowns
+to the enemies: increasing hp per wave; follow ship around
+potential abilities: bullet spread(w/ hyperspace); funny sharp shadow dash; nade/molly
+-smth to prevent abuse of edge jumping
+
+class tree planning
+      Floater
+        ^
+       / \
+   ship   enemy
+            ^
+       /    |    \
+   normal fast,  slow,
+         low hp  tanky
+          
+*/
+
 ///////////////////////////////////VARIABLES/////////////////////////////////////////////////
 
 Spaceship financiallystable = new Spaceship();
@@ -29,16 +48,15 @@ public void draw() {
   }
 
   if (pressingW)
-    financiallystable.accelerate(.2);
+    financiallystable.accelerate(.05);
   if (pressingS)
-    financiallystable.accelerate(-.2);
+    financiallystable.accelerate(-.05);
   if (pressingA)
     financiallystable.turn(2);
   if (pressingD)
     financiallystable.turn(-2);
   if (pressingSpace)
     financiallystable.brake();
-    
   financiallystable.speedLimit();
   financiallystable.move();
   financiallystable.show();
@@ -57,6 +75,13 @@ public void keyPressed() {
     pressingA = true;
   if (key == 'd')
     pressingD = true;
+  if (key == 'q') {
+    financiallystable.setSpaceshipX((int)(Math.random()*750)+25);
+    financiallystable.setSpaceshipY((int)(Math.random()*750)+25);
+    financiallystable.setDirection(Math.random()*360);
+    financiallystable.setSpeedX(0);
+    financiallystable.setSpeedY(0);
+  }
   if (key == ' ')
     pressingSpace = true;
 }
