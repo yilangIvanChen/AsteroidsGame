@@ -5,7 +5,8 @@ class Spaceship extends Floater {
     yCorners = new int[]{-4, -4, -8, -6, -16, -16, -8, -4, 4, 8, 8, 12, 8, 8};
     myCenterX = 400;
     myCenterY = 400;
-    myColor = (#D6E7FF);
+    myColor = #D6E7FF;
+    myStroke = #80AAE3;
     myXspeed = 0;
     myYspeed = 0;
     //private double limiters (maybe)
