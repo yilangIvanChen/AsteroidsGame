@@ -31,6 +31,18 @@ class Spaceship extends Floater {
     myCenterY = y;
   }
 
+  public void setDirection(double direction) {
+    myPointDirection = direction;
+  }
+
+  public void setSpeedX(int x) {
+    myXspeed = x;
+  }
+
+  public void setSpeedY(int y) {
+    myYspeed = y;
+  }
+
   public void brake() {
     if (myXspeed > 0)///////////////////constantly decels to zero (not accurate to space but womp womp)
       myXspeed -= .1;
@@ -41,14 +53,14 @@ class Spaceship extends Floater {
     if (myYspeed < 0)
       myYspeed += .07;
   }
-  
-  public void speedLimit(){
-    if (myXspeed > 5)////////////////////limits speed to my thing playable
-      myXspeed = 5;
+
+  public void speedLimit() {
+    if (myXspeed > 4)////////////////////limits speed to my thing playable
+      myXspeed = 4;
     if (myXspeed < -3)
       myXspeed = -3;
-    if (myYspeed > 5)
-      myYspeed = 5;
+    if (myYspeed > 4)
+      myYspeed = 4;
     if (myYspeed < -3)
       myYspeed = -3;
   }
