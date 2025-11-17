@@ -22,11 +22,11 @@ class tree planning
 Enemy a = new Enemy(100,100);
 Spaceship financiallystable = new Spaceship();
 Star[][] benjaminneyman = new Star[8][8];
-public boolean pressingW = false;
-public boolean pressingS = false;
-public boolean pressingD = false;
-public boolean pressingA = false;
-public boolean pressingSpace = false;
+boolean pressingW = false;
+boolean pressingS = false;
+boolean pressingD = false;
+boolean pressingA = false;
+boolean pressingSpace = false;
 
 ////////////////////////////////DRAWING STUFF/////////////////////////////////////////////////
 
@@ -61,6 +61,7 @@ public void draw() {
   financiallystable.speedLimit();
   financiallystable.move();
   financiallystable.show();
+  a.move();
   a.show();
 }
 
