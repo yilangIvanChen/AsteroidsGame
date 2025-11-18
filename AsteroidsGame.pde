@@ -19,7 +19,7 @@ class tree planning
 
 ///////////////////////////////////VARIABLES/////////////////////////////////////////////////
 
-Enemy a = new Enemy(100,100);
+Enemy a = new Enemy(400,700);
 Spaceship financiallystable = new Spaceship();
 Star[][] benjaminneyman = new Star[8][8];
 boolean pressingW = false;
@@ -61,7 +61,7 @@ public void draw() {
   financiallystable.speedLimit();
   financiallystable.move();
   financiallystable.show();
-  a.move();
+  a.move(financiallystable.getCenterX(),financiallystable.getCenterY());
   a.show();
 }
 
