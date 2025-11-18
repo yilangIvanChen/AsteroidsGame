@@ -1,5 +1,5 @@
 class Spaceship extends Floater {
-  Spaceship() {
+  public Spaceship() {
     corners = 14;
     xCorners = new int[]{-28, -24, -24, -20, -20, -16, -16, 20, 20, 8, -16, -24, -24, -28};
     yCorners = new int[]{-4, -4, -8, -6, -16, -16, -8, -4, 4, 8, 8, 12, 8, 8};
@@ -43,6 +43,16 @@ class Spaceship extends Floater {
   public void setSpeedY(int y) {
     myYspeed = y;
   }
+
+  ///////////////////////getters
+  public float getCenterX() {
+    return (float) myCenterX;
+  }
+  
+  public float getCenterY() {
+    return (float) myCenterY;
+  }
+
 
   public void brake() {
     if (myXspeed > 0)///////////////////constantly decels to zero (not accurate to space but womp womp)
