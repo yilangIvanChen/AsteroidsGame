@@ -28,7 +28,7 @@ class Enemy extends Floater {
       myCenterY -= Math.sin(angle)*1.7;
     if (myCenterY < y)
       myCenterY += Math.sin(angle)*1.7;
-    System.out.println(angle);
     super.move();
   }
 }
+
