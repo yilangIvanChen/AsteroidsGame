@@ -3,7 +3,6 @@ to do (or not to do):
 to the ship: shoot stuff; hp; level and exp system (exponential exp req); stats; abilities and cooldowns
 to the enemies: increasing hp per wave; follow ship around
 potential abilities: bullet spread(w/ hyperspace); funny sharp shadow dash; nade/molly
--smth to prevent abuse of edge jumping
 
 class tree planning
       Floater
