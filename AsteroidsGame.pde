@@ -1,24 +1,25 @@
 /*
 to do (or not to do):
-to the ship: shoot stuff; hp; level and exp system (exponential exp req); stats; abilities and cooldowns
-to the enemies: increasing hp per wave; follow ship around
-potential abilities: bullet spread(w/ hyperspace); funny sharp shadow dash; nade/molly
-
-class tree planning
-      Floater
-        ^
-       / \
-   ship   enemy
-            ^
-       /    |    \
-   normal fast,  slow,
-         low hp  tanky
-          
-*/
+ to the ship: shoot stuff; hp; level and exp system (exponential exp req); stats; abilities and cooldowns
+ to the enemies: increasing hp per wave; follow ship around
+ potential abilities: bullet spread(w/ hyperspace); funny sharp shadow dash; nade/molly
+ -smth to prevent abuse of edge jumping
+ 
+ class tree planning
+ Floater
+ ^
+ / \
+ ship   enemy
+ ^
+ /    |    \
+ normal fast,  slow,
+ low hp  tanky
+ 
+ */
 
 ///////////////////////////////////VARIABLES/////////////////////////////////////////////////
 
-Enemy a = new Enemy(400,700);
+ArrayList <Enemy> jason = new ArrayList <Enemy>();
 Spaceship financiallystable = new Spaceship();
 Star[][] benjaminneyman = new Star[8][8];
 boolean pressingW = false;
@@ -38,6 +39,9 @@ public void setup() {
       benjaminneyman[j][i] = new Star((int)(Math.random()*114)+114*i, (int)(Math.random()*114)+114*j);
       benjaminneyman[j][i].show();
     }
+  }
+  for (int i = 0; i < 11; i++) {
+    jason.add(new Enemy((int)(Math.random()*700), (int)(Math.random()*700)));
   }
 }
 public void draw() {
@@ -60,8 +64,10 @@ public void draw() {
   financiallystable.speedLimit();
   financiallystable.move();
   financiallystable.show();
-  a.move(financiallystable.getCenterX(),financiallystable.getCenterY());
-  a.show();
+  for (int i = 0; i < jason.size();i++){
+  jason.get(i).move(financiallystable.getSpaceshipX(),financiallystable.getSpaceshipY());
+  jason.get(i).show();
+  }
 }
 
 
