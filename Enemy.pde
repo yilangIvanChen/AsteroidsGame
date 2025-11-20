@@ -3,7 +3,7 @@ class Enemy extends Floater {
 
   public Enemy(double x, double y) {
     rotSpeed = 2.3;
-    speed = 1.7;
+    speed = 2.5;
     corners = 8;
     xCorners = new int[]{18, 9, 14, 0, -18, -9, -14, 0};
     yCorners = new int[]{14, 0, -18, -9, -14, 0, 18, 9};
@@ -19,16 +19,19 @@ class Enemy extends Floater {
   public void move(float x, float y) {
     float angle;
     turn(rotSpeed);
-    angle = atan((float)((myCenterY-y)/(myCenterX-x)));
+    pushMatrix();
+    translate(x,y);
+    angle = atan2((float)myCenterX,(float)myCenterY);
+    angle -= PI/2;
+    popMatrix();
     if (myCenterX >= x)
       myCenterX -= Math.cos(angle)*speed;
     if (myCenterX < x)
       myCenterX += Math.cos(angle)*speed;
     if (myCenterY >= y)
-      myCenterY -= Math.sin(angle)*1.7;
+      myCenterY += Math.sin(angle)*speed;
     if (myCenterY < y)
-      myCenterY += Math.sin(angle)*1.7;
+      myCenterY -= Math.sin(angle)*speed;
     super.move();
   }
 }
-
