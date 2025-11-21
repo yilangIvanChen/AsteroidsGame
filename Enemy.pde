@@ -1,7 +1,8 @@
 class Enemy extends Floater {
-  private double rotSpeed, speed;
+  protected double rotSpeed, speed;
 
   public Enemy(double x, double y) {
+    isDead = false;
     rotSpeed = 2.3;
     speed = 2.5;
     corners = 8;
@@ -20,8 +21,8 @@ class Enemy extends Floater {
     float angle;
     turn(rotSpeed);
     pushMatrix();
-    translate(x,y);
-    angle = atan2((float)myCenterX,(float)myCenterY);
+    translate(x, y);
+    angle = atan2((float)myCenterX, (float)myCenterY);
     angle -= PI/2;
     popMatrix();
     if (myCenterX >= x)
@@ -33,5 +34,14 @@ class Enemy extends Floater {
     if (myCenterY < y)
       myCenterY -= Math.sin(angle)*speed;
     super.move();
+  }
+
+  public void checkCollide(double distance) {
+    if (distance < 25)
+      isDead = true;
+  }
+
+  public boolean checkDead() {
+    return isDead;
   }
 }
