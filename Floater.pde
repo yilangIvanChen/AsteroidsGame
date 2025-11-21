@@ -1,6 +1,7 @@
 class Floater //Do NOT modify the Floater class! Make changes in the Spaceship class //please don't take off points :pray:
 {   
   protected int health;//hp member var for later (added)
+  protected boolean isDead;
   protected int corners;  //the number of corners, a triangular floater has 3   
   protected int[] xCorners;   
   protected int[] yCorners;   
@@ -71,5 +72,43 @@ class Floater //Do NOT modify the Floater class! Make changes in the Spaceship c
     //"unrotate" and "untranslate" in reverse order
     rotate(-1*dRadians);
     translate(-1*(float)myCenterX, -1*(float)myCenterY);
+  }
+  
+  
+  //getters and setters stuff (added)
+  public void dead(){///become dead
+    isDead = true;
+  }
+  
+  public int getCenterX() {///access orientation stuff
+    return (int)myCenterX;
+  }
+
+  public int getCenterY() {
+    return (int)myCenterY;
+  }
+  
+  public double getDirection() {
+    return myPointDirection;
+  }
+  
+    public void setCenterX(int x) {////////////////set orientation stuff
+    myCenterX = x;
+  }
+
+  public void setCenterY(int y) {
+    myCenterY = y;
+  }
+
+  public void setDirection(double direction) {
+    myPointDirection = direction;
+  }
+
+  public void setSpeedX(int x) {///////////set speed stuff
+    myXspeed = x;
+  }
+
+  public void setSpeedY(int y) {
+    myYspeed = y;
   }
 } 
