@@ -1,19 +1,22 @@
 /*
 to do (or not to do):
- to the ship: shoot stuff; hp; level and exp system (exponential exp req); stats; abilities and cooldowns
- to the enemies: increasing hp per wave; follow ship around
- potential abilities: bullet spread(w/ hyperspace); funny sharp shadow dash; nade/molly
- -smth to prevent abuse of edge jumping
+ 
+ -hp/collision (health bar?)
+ -enemies randomly spawn a certain distance away from ship
+ -abilities: bullet spread (w/ hyperspace, med cd); funny sharp shadow dash; throwable nade
+ -ability cooldowns
+ -reloading
+ -enemy spawn rates increase as time goes on
  
  class tree planning
  Floater
- ^
+  ^
  / \
  ship   enemy
- ^
+      ^
  /    |    \
  normal fast,  slow,
- low hp  tanky
+       low hp  tanky
  
  */
 
@@ -44,14 +47,16 @@ public void setup() {
     jason.add(new Enemy((int)(Math.random()*700), (int)(Math.random()*700)));
   }
 }
+
+
 public void draw() {
   background(150, 60, 255);
   for (int j = 0; j < 8; j++) {
     for (int i = 0; i < 8; i++)
-      benjaminneyman[j][i].show();
+      benjaminneyman[j][i].show();//////////stars
   }
 
-  if (pressingW)
+  if (pressingW)///////////////////////////movement
     financiallystable.accelerate(.1);
   if (pressingS)
     financiallystable.accelerate(-.1);
@@ -64,9 +69,16 @@ public void draw() {
   financiallystable.speedLimit();
   financiallystable.move();
   financiallystable.show();
-  for (int i = 0; i < jason.size();i++){
-  jason.get(i).move(financiallystable.getSpaceshipX(),financiallystable.getSpaceshipY());
-  jason.get(i).show();
+
+  for (int i = 0; i < jason.size(); i++) {/////////////////////enemies
+    jason.get(i).move(financiallystable.getCenterX(), financiallystable.getCenterY());
+    jason.get(i).show();
+  }
+
+  for (int i = jason.size()-1; i >= 0; i--) {/////////////////////enemies
+    jason.get(i).checkCollide(dist(jason.get(i).getCenterX(), jason.get(i).getCenterY(), financiallystable.getCenterX(), financiallystable.getCenterY()));
+    if (jason.get(i).checkDead())
+      jason.remove(i);
   }
 }
 
@@ -84,8 +96,8 @@ public void keyPressed() {
   if (key == 'd')
     pressingD = true;
   if (key == 'q') {
-    financiallystable.setSpaceshipX((int)(Math.random()*750)+25);
-    financiallystable.setSpaceshipY((int)(Math.random()*750)+25);
+    financiallystable.setCenterX((int)(Math.random()*750)+25);
+    financiallystable.setCenterY((int)(Math.random()*750)+25);
     financiallystable.setDirection(Math.random()*360);
     financiallystable.setSpeedX(0);
     financiallystable.setSpeedY(0);
