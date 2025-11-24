@@ -3,8 +3,8 @@ class Enemy extends Floater {
 
   public Enemy(double x, double y) {
     isDead = false;
-    rotSpeed = 2.3;
-    speed = 2.5;
+    rotSpeed = 3;
+    speed = 1.5;
     corners = 8;
     xCorners = new int[]{18, 9, 14, 0, -18, -9, -14, 0};
     yCorners = new int[]{14, 0, -18, -9, -14, 0, 18, 9};
@@ -18,21 +18,15 @@ class Enemy extends Floater {
   }
 
   public void move(float x, float y) {
-    float angle;
     turn(rotSpeed);
-    pushMatrix();
-    translate(x, y);
-    angle = atan2((float)myCenterX, (float)myCenterY);
-    angle -= PI/2;
-    popMatrix();
-    if (myCenterX >= x)
-      myCenterX -= Math.cos(angle)*speed;
-    if (myCenterX < x)
-      myCenterX += Math.cos(angle)*speed;
-    if (myCenterY >= y)
-      myCenterY += Math.sin(angle)*speed;
     if (myCenterY < y)
-      myCenterY -= Math.sin(angle)*speed;
+      myCenterY += speed;
+    if (myCenterY > y)
+      myCenterY -= speed;
+    if (myCenterX < x)
+      myCenterX += speed;
+    if (myCenterX > x)
+      myCenterX -= speed;
     super.move();
   }
 
