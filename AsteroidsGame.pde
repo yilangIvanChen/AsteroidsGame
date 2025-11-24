@@ -16,7 +16,7 @@ to do (or not to do):
       ^
  /    |    \
  normal fast,  slow,
-       low hp  tanky
+         low hp  tanky
  
  */
 
@@ -30,6 +30,8 @@ boolean pressingS = false;
 boolean pressingD = false;
 boolean pressingA = false;
 boolean pressingSpace = false;
+double spawnRate = .0135;
+double willSpawn;
 
 ////////////////////////////////DRAWING STUFF/////////////////////////////////////////////////
 
@@ -43,9 +45,6 @@ public void setup() {
       benjaminneyman[j][i].show();
     }
   }
-  for (int i = 0; i < 11; i++) {
-    jason.add(new Enemy((int)(Math.random()*700), (int)(Math.random()*700)));
-  }
 }
 
 
@@ -55,6 +54,11 @@ public void draw() {
     for (int i = 0; i < 8; i++)
       benjaminneyman[j][i].show();//////////stars
   }
+
+  willSpawn = Math.random();
+  if (willSpawn < spawnRate)
+    jason.add(new Enemy((int)(Math.random()*700), (int)(Math.random()*700)));
+   spawnRate += .00000005;
 
   if (pressingW)///////////////////////////movement
     financiallystable.accelerate(.1);
