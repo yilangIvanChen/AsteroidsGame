@@ -10,13 +10,13 @@ to do (or not to do):
  
  class tree planning
  Floater
-  ^
+ ^
  / \
  ship   enemy
-      ^
+ ^
  /    |    \
  normal fast,  slow,
-         low hp  tanky
+ low hp  tanky
  
  */
 
@@ -25,11 +25,13 @@ to do (or not to do):
 ArrayList <Enemy> jason = new ArrayList <Enemy>();
 Spaceship financiallystable = new Spaceship();
 Star[][] benjaminneyman = new Star[8][8];
+ArrayList <Bullet> pew = new ArrayList <Bullet>();
 boolean pressingW = false;
 boolean pressingS = false;
 boolean pressingD = false;
 boolean pressingA = false;
 boolean pressingSpace = false;
+boolean pressingM1 = false;
 double spawnRate = .0135;
 double willSpawn;
 
@@ -58,7 +60,7 @@ public void draw() {
   willSpawn = Math.random();
   if (willSpawn < spawnRate)
     jason.add(new Enemy((int)(Math.random()*700), (int)(Math.random()*700)));
-   spawnRate += .00000005;
+  spawnRate += .00000005;
 
   if (pressingW)///////////////////////////movement
     financiallystable.accelerate(.1);
@@ -70,6 +72,15 @@ public void draw() {
     financiallystable.turn(-3);
   if (pressingSpace)
     financiallystable.brake();
+  if (mousePressed && mouseButton == LEFT && pressingM1){/////////////////////bullets
+    pew.add(new Bullet(financiallystable.getCenterX(),financiallystable.getCenterY(),financiallystable.getDirection()));
+    //pressingM1 = false;  
+}
+  for (int i = 0; i < pew.size(); i++) {
+    pew.get(i).move();
+    pew.get(i).show();
+  }
+  
   financiallystable.speedLimit();
   financiallystable.move();
   financiallystable.show();
@@ -108,6 +119,10 @@ public void keyPressed() {
   }
   if (key == ' ')
     pressingSpace = true;
+}
+
+public void mouseReleased() {
+  pressingM1 = false;
 }
 
 public void keyReleased() {
