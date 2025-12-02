@@ -24,7 +24,7 @@ class Spaceship extends Floater {
       myYspeed += .07;
   }
 
-  public void speedLimit() {
+  public void move() {
     if (myXspeed > 4)////////////////////limits speed to my thing playable
       myXspeed = 4;
     if (myXspeed < -3)
@@ -33,5 +33,6 @@ class Spaceship extends Floater {
       myYspeed = 4;
     if (myYspeed < -3)
       myYspeed = -3;
+    super.move();
   }
 }
