@@ -59,7 +59,6 @@ public void setup() {
 
 
 public void draw() {
-  System.out.println(checkReload);
   background(150, 60, 255);
   for (int j = 0; j < 8; j++) {
     for (int i = 0; i < 8; i++)
