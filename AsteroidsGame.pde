@@ -105,7 +105,7 @@ public void draw() {
       rPressed = false;
     }
   }
-  System.out.println(pew.size());
+
   for (int i = pew.size()-1; i >= 0; i--) {
     if (pew.size() > 0) {
       pew.get(i).move();
