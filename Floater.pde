@@ -73,13 +73,10 @@ class Floater //Do NOT modify the Floater class! Make changes in the Spaceship c
     rotate(-1*dRadians);
     translate(-1*(float)myCenterX, -1*(float)myCenterY);
   }
-  
-  
-  //getters and setters stuff (added)
-  public void dead(){///become dead
-    isDead = true;
+  public boolean checkDead() {
+    return isDead;
   }
-  
+
   public int getCenterX() {///access orientation stuff
     return (int)myCenterX;
   }
@@ -87,12 +84,12 @@ class Floater //Do NOT modify the Floater class! Make changes in the Spaceship c
   public int getCenterY() {
     return (int)myCenterY;
   }
-  
+
   public double getDirection() {
     return myPointDirection;
   }
-  
-    public void setCenterX(int x) {////////////////set orientation stuff
+
+  public void setCenterX(int x) {////////////////set orientation stuff
     myCenterX = x;
   }
 
