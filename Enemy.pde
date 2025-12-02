@@ -17,15 +17,15 @@ class Enemy extends Floater {
     myStroke = #BC1E29;
   }
 
-  public void move(float x, float y) {
+  public void move(Spaceship ship) {
     turn(rotSpeed);
-    if (myCenterY < y)
+    if (myCenterY < ship.getCenterY())
       myCenterY += speed;
-    if (myCenterY > y)
+    if (myCenterY > ship.getCenterY())
       myCenterY -= speed;
-    if (myCenterX < x)
+    if (myCenterX < ship.getCenterX())
       myCenterX += speed;
-    if (myCenterX > x)
+    if (myCenterX > ship.getCenterX())
       myCenterX -= speed;
     super.move();
   }
@@ -33,9 +33,5 @@ class Enemy extends Floater {
   public void checkCollide(double distance) {
     if (distance < 25)
       isDead = true;
-  }
-
-  public boolean checkDead() {
-    return isDead;
   }
 }
