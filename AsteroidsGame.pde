@@ -2,36 +2,44 @@
 to do (or not to do):
  
  -hp/collision (health bar?)
- -enemies randomly spawn a certain distance away from ship
+ -enemies randomly spawn on outer edge
  -abilities: bullet spread (w/ hyperspace, med cd); funny sharp shadow dash; throwable nade
  -ability cooldowns
- -reloading
- -enemy spawn rates increase as time goes on
+ -reloading (done, add ui and remove bullet when outside of border or collision)
  
  class tree planning
  Floater
- ^
+  ^
  / \
  ship   enemy
- ^
+      ^
  /    |    \
  normal fast,  slow,
- low hp  tanky
+        low hp  tanky
  
  */
 
 ///////////////////////////////////VARIABLES/////////////////////////////////////////////////
 
+Star[][] benjaminneyman = new Star[8][8];
+
 ArrayList <Enemy> jason = new ArrayList <Enemy>();
 Spaceship financiallystable = new Spaceship();
-Star[][] benjaminneyman = new Star[8][8];
-ArrayList <Bullet> pew = new ArrayList <Bullet>();
+
 boolean pressingW = false;
 boolean pressingS = false;
 boolean pressingD = false;
 boolean pressingA = false;
 boolean pressingSpace = false;
-boolean pressingM1 = false;
+boolean RPressed = false;
+
+ArrayList <Bullet> pew = new ArrayList <Bullet>();
+boolean shootCD = false;
+int shootCDtimer = 0;
+boolean checkReload = false;
+int bulletsShot = 0;
+int reloadTimer = 0;
+
 double spawnRate = .0135;
 double willSpawn;
 
@@ -51,6 +59,7 @@ public void setup() {
 
 
 public void draw() {
+  System.out.println(checkReload);
   background(150, 60, 255);
   for (int j = 0; j < 8; j++) {
     for (int i = 0; i < 8; i++)
@@ -72,15 +81,34 @@ public void draw() {
     financiallystable.turn(-3);
   if (pressingSpace)
     financiallystable.brake();
-  if (mousePressed && mouseButton == LEFT && pressingM1){/////////////////////bullets
-    pew.add(new Bullet(financiallystable.getCenterX(),financiallystable.getCenterY(),financiallystable.getDirection()));
-    //pressingM1 = false;  
-}
-  for (int i = 0; i < pew.size(); i++) {
+  if (mousePressed && mouseButton == LEFT && !shootCD && !checkReload) {/////////////////////bullets
+    pew.add(new Bullet(financiallystable.getCenterX(), financiallystable.getCenterY(), financiallystable.getDirection()));
+    pew.get(pew.size()-1).accelerate(23);
+    shootCD = true;
+    bulletsShot++;
+  }
+  shootCDtimer++;
+  if (shootCDtimer == 10) {
+    shootCDtimer = 0;
+    shootCD = false;
+  }
+
+  if (bulletsShot == 24 || RPressed) {
+    checkReload = true;
+    reloadTimer++;
+    if (reloadTimer == 60) {
+      bulletsShot = 0;
+      checkReload = false;
+      reloadTimer = 0;
+      RPressed = false;
+    }
+  }
+
+  for (int i = pew.size()-1; i >= 0; i--) {
     pew.get(i).move();
     pew.get(i).show();
   }
-  
+
   financiallystable.speedLimit();
   financiallystable.move();
   financiallystable.show();
@@ -110,6 +138,8 @@ public void keyPressed() {
     pressingA = true;
   if (key == 'd')
     pressingD = true;
+  if (key == 'r')
+    RPressed = true;
   if (key == 'q') {
     financiallystable.setCenterX((int)(Math.random()*750)+25);
     financiallystable.setCenterY((int)(Math.random()*750)+25);
@@ -119,10 +149,6 @@ public void keyPressed() {
   }
   if (key == ' ')
     pressingSpace = true;
-}
-
-public void mouseReleased() {
-  pressingM1 = false;
 }
 
 public void keyReleased() {
