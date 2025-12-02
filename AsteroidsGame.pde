@@ -9,13 +9,13 @@ to do (or not to do):
  
  class tree planning
  Floater
-  ^
+ ^
  / \
  ship   enemy
-      ^
+ ^
  /    |    \
  normal fast,  slow,
-        low hp  tanky
+ low hp  tanky
  
  */
 
@@ -31,7 +31,7 @@ boolean pressingS = false;
 boolean pressingD = false;
 boolean pressingA = false;
 boolean pressingSpace = false;
-boolean RPressed = false;
+boolean rPressed = false;
 
 ArrayList <Bullet> pew = new ArrayList <Bullet>();
 boolean shootCD = false;
@@ -80,40 +80,46 @@ public void draw() {
     financiallystable.turn(-3);
   if (pressingSpace)
     financiallystable.brake();
+
   if (mousePressed && mouseButton == LEFT && !shootCD && !checkReload) {/////////////////////bullets
-    pew.add(new Bullet(financiallystable.getCenterX(), financiallystable.getCenterY(), financiallystable.getDirection()));
-    pew.get(pew.size()-1).accelerate(23);
+    pew.add(new Bullet(financiallystable));
     shootCD = true;
     bulletsShot++;
   }
-  shootCDtimer++;
-  if (shootCDtimer == 10) {
+
+
+
+  shootCDtimer++;//////////shoot cd
+  if (shootCDtimer == 6) {
     shootCDtimer = 0;
     shootCD = false;
   }
 
-  if (bulletsShot == 24 || RPressed) {
+  if (bulletsShot == 36 || rPressed) {///////////reloading
     checkReload = true;
     reloadTimer++;
     if (reloadTimer == 60) {
       bulletsShot = 0;
       checkReload = false;
       reloadTimer = 0;
-      RPressed = false;
+      rPressed = false;
     }
   }
-
+  System.out.println(pew.size());
   for (int i = pew.size()-1; i >= 0; i--) {
-    pew.get(i).move();
-    pew.get(i).show();
+    if (pew.size() > 0) {
+      pew.get(i).move();
+      pew.get(i).show();
+    }
+    if (pew.get(i).checkDead())
+      pew.remove(i);
   }
 
-  financiallystable.speedLimit();
   financiallystable.move();
   financiallystable.show();
 
   for (int i = 0; i < jason.size(); i++) {/////////////////////enemies
-    jason.get(i).move(financiallystable.getCenterX(), financiallystable.getCenterY());
+    jason.get(i).move(financiallystable);
     jason.get(i).show();
   }
 
@@ -138,7 +144,7 @@ public void keyPressed() {
   if (key == 'd')
     pressingD = true;
   if (key == 'r')
-    RPressed = true;
+    rPressed = true;
   if (key == 'q') {
     financiallystable.setCenterX((int)(Math.random()*750)+25);
     financiallystable.setCenterY((int)(Math.random()*750)+25);
