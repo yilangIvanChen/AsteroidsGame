@@ -1,5 +1,6 @@
 class Spaceship extends Floater {
   public Spaceship() {
+    health = 100;
     isDead = false;
     corners = 14;
     xCorners = new int[]{-28, -24, -24, -20, -20, -16, -16, 20, 20, 8, -16, -24, -24, -28};
