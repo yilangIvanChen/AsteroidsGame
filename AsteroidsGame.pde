@@ -23,7 +23,7 @@ to do (or not to do):
 
 Star[][] benjaminneyman = new Star[8][8];
 
-ArrayList <Enemy> jason = new ArrayList <Enemy>();
+ArrayList <Enemy> jasontrieu = new ArrayList <Enemy>();
 Spaceship financiallystable = new Spaceship();
 
 boolean pressingW = false;
@@ -62,13 +62,13 @@ public void draw() {
   background(150, 60, 255);
   for (int j = 0; j < 8; j++) {
     for (int i = 0; i < 8; i++)
-      benjaminneyman[j][i].show();//////////stars
+      benjaminneyman[j][i].show();//////////////stars
   }
 
   willSpawn = Math.random();
   if (willSpawn < spawnRate)
-    jason.add(new Enemy((int)(Math.random()*700), (int)(Math.random()*700)));
-  spawnRate += .00000005;
+    jasontrieu.add(new Enemy((int)(Math.random()*600)+150, (int)(Math.random()*700)+50));
+  spawnRate += .000005;
 
   if (pressingW)///////////////////////////movement
     financiallystable.accelerate(.1);
@@ -90,15 +90,15 @@ public void draw() {
 
 
   shootCDtimer++;//////////shoot cd
-  if (shootCDtimer == 6) {
+  if (shootCDtimer == 15) {
     shootCDtimer = 0;
     shootCD = false;
   }
 
-  if (bulletsShot == 36 || rPressed) {///////////reloading
+  if (bulletsShot == 18 || rPressed) {///////////reloading
     checkReload = true;
     reloadTimer++;
-    if (reloadTimer == 60) {
+    if (reloadTimer == 150) {
       bulletsShot = 0;
       checkReload = false;
       reloadTimer = 0;
@@ -118,15 +118,41 @@ public void draw() {
   financiallystable.move();
   financiallystable.show();
 
-  for (int i = 0; i < jason.size(); i++) {/////////////////////enemies
-    jason.get(i).move(financiallystable);
-    jason.get(i).show();
+  for (int i = 0; i < jasontrieu.size(); i++) {/////////////////////enemies
+    jasontrieu.get(i).move(financiallystable);
+    jasontrieu.get(i).show();
   }
 
-  for (int i = jason.size()-1; i >= 0; i--) {/////////////////////enemies
-    jason.get(i).checkCollide(dist(jason.get(i).getCenterX(), jason.get(i).getCenterY(), financiallystable.getCenterX(), financiallystable.getCenterY()));
-    if (jason.get(i).checkDead())
-      jason.remove(i);
+  for (int i = jasontrieu.size()-1; i >= 0; i--) {/////////////////////enemies
+    jasontrieu.get(i).checkCollide(dist(jasontrieu.get(i).getCenterX(), jasontrieu.get(i).getCenterY(), financiallystable.getCenterX(), financiallystable.getCenterY()));
+    if (jasontrieu.get(i).checkDead()) {
+      jasontrieu.remove(i);
+      break;
+    }
+    for (int j = pew.size()-1; j >= 0; j--) {
+      jasontrieu.get(i).checkCollide(dist(jasontrieu.get(i).getCenterX(), jasontrieu.get(i).getCenterY(), pew.get(j).getCenterX(), pew.get(j).getCenterY()));
+      if (jasontrieu.get(i).checkDead()) {
+        jasontrieu.remove(i);
+        pew.remove(j);
+        break;
+      }
+    }
+  }
+
+  noStroke();///////////////////////UI
+  fill(167);
+  rect(0, 0, 100, 800);
+  stroke(#E8BC1C);
+  strokeWeight(2);
+  fill(#FFD439);
+  rect(5, 5+5*bulletsShot, 42, 90-5*bulletsShot);
+  stroke(#42D821);
+  fill(#59FF39);
+  rect(53, 5, 42, 90);
+  if (checkReload){
+    fill(0);
+    textSize(14);
+    text("Reloading...", financiallystable.getCenterX()-35, financiallystable.getCenterY()-55);
   }
 }
 
