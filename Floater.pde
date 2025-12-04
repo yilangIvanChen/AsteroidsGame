@@ -34,7 +34,7 @@ class Floater //Do NOT modify the Floater class! Make changes in the Spaceship c
     if (myCenterX >width)
     {     
       myCenterX = 0;
-    } else if (myCenterX<0)
+    } else if (myCenterX<100)
     {     
       myCenterX = width;
     }    
@@ -61,6 +61,7 @@ class Floater //Do NOT modify the Floater class! Make changes in the Spaceship c
     rotate(dRadians);
 
     //draw the polygon
+    strokeWeight(1);
     stroke(myStroke);////////////////////////modified here
     beginShape();
     for (int nI = 0; nI < corners; nI++)
