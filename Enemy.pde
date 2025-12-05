@@ -18,6 +18,9 @@ class Enemy extends Floater {
     myStroke = #0C75CE;
   }
 
+  public Enemy() {
+  }
+
   public void move(Spaceship ship) {
     turn(rotSpeed);
     if (myCenterY < ship.getCenterY())
@@ -35,6 +38,13 @@ class Enemy extends Floater {
     if (health < 6) {
       myColor = #EA2626;
       myStroke = #BC1E29;
+      speed = 1.5;
+      rotSpeed = 3;
+    } else if (health < 11) {
+      myColor = #40A7FF;
+      myStroke = #0C75CE;
+      speed = 1.5;
+      rotSpeed = 3;
     }
   }
 
