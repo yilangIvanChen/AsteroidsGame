@@ -1,11 +1,8 @@
 /*
 to do (or not to do):
  
- -hp/collision (health bar?)
- -enemies randomly spawn on outer edge
  -abilities: bullet spread (w/ hyperspace, med cd); funny sharp shadow dash; throwable nade
  -ability cooldowns
- -reloading (done, add ui and remove bullet when outside of border or collision)
  
  class tree planning
  Floater
@@ -21,17 +18,17 @@ to do (or not to do):
 
 ///////////////////////////////////VARIABLES/////////////////////////////////////////////////
 
-Star[][] benjaminneyman = new Star[8][8];
+Star[][] Stars = new Star[8][8];
+PImage dead;
 
-ArrayList <Enemy> jasontrieu = new ArrayList <Enemy>();
-Spaceship financiallystable = new Spaceship();
+ArrayList <Enemy> Enemies = new ArrayList <Enemy>();
+Spaceship Ship = new Spaceship();
 
 boolean pressingW = false;
 boolean pressingS = false;
 boolean pressingD = false;
 boolean pressingA = false;
 boolean pressingSpace = false;
-boolean rPressed = false;
 
 ArrayList <Bullet> pew = new ArrayList <Bullet>();
 boolean shootCD = false;
@@ -47,12 +44,13 @@ double willSpawn;
 
 
 public void setup() {
+  dead = loadImage("skillissue.png");
   size(800, 800);
   background(150, 60, 255);
   for (int j = 0; j < 8; j++) {
     for (int i = 0; i < 8; i++) {
-      benjaminneyman[j][i] = new Star((int)(Math.random()*114)+114*i, (int)(Math.random()*114)+114*j);
-      benjaminneyman[j][i].show();
+      Stars[j][i] = new Star((int)(Math.random()*114)+114*i, (int)(Math.random()*114)+114*j);
+      Stars[j][i].show();
     }
   }
 }
@@ -62,27 +60,27 @@ public void draw() {
   background(150, 60, 255);
   for (int j = 0; j < 8; j++) {
     for (int i = 0; i < 8; i++)
-      benjaminneyman[j][i].show();//////////////stars
+      Stars[j][i].show();//////////////stars
   }
 
   willSpawn = Math.random();
   if (willSpawn < spawnRate)
-    jasontrieu.add(new Enemy((int)(Math.random()*600)+150, (int)(Math.random()*700)+50));
+    Enemies.add(new Enemy((int)(Math.random()*600)+150, (int)(Math.random()*700)+50));
   spawnRate += .000005;
 
   if (pressingW)///////////////////////////movement
-    financiallystable.accelerate(.1);
+    Ship.accelerate(.1);
   if (pressingS)
-    financiallystable.accelerate(-.1);
+    Ship.accelerate(-.1);
   if (pressingA)
-    financiallystable.turn(3);
+    Ship.turn(3);
   if (pressingD)
-    financiallystable.turn(-3);
+    Ship.turn(-3);
   if (pressingSpace)
-    financiallystable.brake();
+    Ship.brake();
 
   if (mousePressed && mouseButton == LEFT && !shootCD && !checkReload) {/////////////////////bullets
-    pew.add(new Bullet(financiallystable));
+    pew.add(new Bullet(Ship));
     shootCD = true;
     bulletsShot++;
   }
@@ -90,19 +88,18 @@ public void draw() {
 
 
   shootCDtimer++;//////////shoot cd
-  if (shootCDtimer == 15) {
+  if (shootCDtimer == 6) {
     shootCDtimer = 0;
     shootCD = false;
   }
 
-  if (bulletsShot == 18 || rPressed) {///////////reloading
+  if (bulletsShot == 36) {///////////reloading
     checkReload = true;
     reloadTimer++;
-    if (reloadTimer == 150) {
+    if (reloadTimer == 120) {
       bulletsShot = 0;
       checkReload = false;
       reloadTimer = 0;
-      rPressed = false;
     }
   }
 
@@ -115,44 +112,59 @@ public void draw() {
       pew.remove(i);
   }
 
-  financiallystable.move();
-  financiallystable.show();
+  Ship.move();
+  Ship.show();
 
-  for (int i = 0; i < jasontrieu.size(); i++) {/////////////////////enemies
-    jasontrieu.get(i).move(financiallystable);
-    jasontrieu.get(i).show();
+  for (int i = 0; i < Enemies.size(); i++) {/////////////////////enemies
+    Enemies.get(i).move(Ship);
+    Enemies.get(i).show();
   }
 
-  for (int i = jasontrieu.size()-1; i >= 0; i--) {/////////////////////enemies
-    jasontrieu.get(i).checkCollide(dist(jasontrieu.get(i).getCenterX(), jasontrieu.get(i).getCenterY(), financiallystable.getCenterX(), financiallystable.getCenterY()));
-    if (jasontrieu.get(i).checkDead()) {
-      jasontrieu.remove(i);
+  for (int i = Enemies.size()-1; i >= 0; i--) {
+    if (Enemies.get(i).checkCollide(Ship)) {
+      Ship.takeDmg(5);
+      Enemies.remove(i);
       break;
     }
     for (int j = pew.size()-1; j >= 0; j--) {
-      jasontrieu.get(i).checkCollide(dist(jasontrieu.get(i).getCenterX(), jasontrieu.get(i).getCenterY(), pew.get(j).getCenterX(), pew.get(j).getCenterY()));
-      if (jasontrieu.get(i).checkDead()) {
-        jasontrieu.remove(i);
+      if (Enemies.get(i).checkCollide(pew.get(j))) {
+        Enemies.get(i).takeDmg(5);
+        Enemies.get(i).dmgTaken();
         pew.remove(j);
+        break;
+      }
+      if (Enemies.get(i).checkDead()) {
+        Enemies.remove(i);
         break;
       }
     }
   }
 
   noStroke();///////////////////////UI
+  if (checkReload) {
+    fill(0);
+    textSize(14);
+    text("Reloading...", Ship.getCenterX()-35, Ship.getCenterY()-55);
+  }
   fill(167);
   rect(0, 0, 100, 800);
   stroke(#E8BC1C);
   strokeWeight(2);
   fill(#FFD439);
-  rect(5, 5+5*bulletsShot, 42, 90-5*bulletsShot);
+  if (checkReload)
+    rect(5, 95-reloadTimer/4*3, 42, reloadTimer/4*3);
+  else
+    rect(5, 5+90*((float)bulletsShot/36), 42, 90*((36-(float)bulletsShot)/36));
   stroke(#42D821);
   fill(#59FF39);
-  rect(53, 5, 42, 90);
-  if (checkReload){
+  rect(53, 5+90*((100-Ship.getHp())/100), 42, 90*(Ship.getHp()/100));
+
+  if (Ship.getHp() <= 0) {
+    image(dead, -200, 0, width*1.8, height);
     fill(0);
-    textSize(14);
-    text("Reloading...", financiallystable.getCenterX()-35, financiallystable.getCenterY()-55);
+    textSize(50);
+    text("Blawg you suck", 50, 150);
+    text("try getting better next time", 50, 500);
   }
 }
 
@@ -169,14 +181,12 @@ public void keyPressed() {
     pressingA = true;
   if (key == 'd')
     pressingD = true;
-  if (key == 'r')
-    rPressed = true;
   if (key == 'q') {
-    financiallystable.setCenterX((int)(Math.random()*750)+25);
-    financiallystable.setCenterY((int)(Math.random()*750)+25);
-    financiallystable.setDirection(Math.random()*360);
-    financiallystable.setSpeedX(0);
-    financiallystable.setSpeedY(0);
+    Ship.setCenterX((int)(Math.random()*750)+25);
+    Ship.setCenterY((int)(Math.random()*750)+25);
+    Ship.setDirection(Math.random()*360);
+    Ship.setSpeedX(0);
+    Ship.setSpeedY(0);
   }
   if (key == ' ')
     pressingSpace = true;
