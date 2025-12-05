@@ -2,6 +2,7 @@ class Enemy extends Floater {
   protected double rotSpeed, speed;
 
   public Enemy(double x, double y) {
+    health = 10;
     isDead = false;
     rotSpeed = 3;
     speed = 1.5;
@@ -13,8 +14,8 @@ class Enemy extends Floater {
     myXspeed = 0;
     myYspeed = 0;
     myPointDirection = 0;
-    myColor = #EA2626;
-    myStroke = #BC1E29;
+    myColor = #40A7FF;
+    myStroke = #0C75CE;
   }
 
   public void move(Spaceship ship) {
@@ -30,8 +31,17 @@ class Enemy extends Floater {
     super.move();
   }
 
-  public void checkCollide(double distance) {
-    if (distance < 25)
-      isDead = true;
+  public void dmgTaken() {
+    if (health < 6) {
+      myColor = #EA2626;
+      myStroke = #BC1E29;
+    }
+  }
+
+  public boolean checkCollide(Floater object) {
+    boolean why = false;
+    if (dist((float)myCenterX, (float)myCenterY, object.getCenterX(), object.getCenterY()) < 25)
+      why = true;
+    return why;
   }
 }
