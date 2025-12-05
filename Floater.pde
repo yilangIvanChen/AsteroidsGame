@@ -33,7 +33,7 @@ class Floater //Do NOT modify the Floater class! Make changes in the Spaceship c
     //wrap around screen    
     if (myCenterX >width)
     {     
-      myCenterX = 0;
+      myCenterX = 100;
     } else if (myCenterX<100)
     {     
       myCenterX = width;
@@ -78,6 +78,15 @@ class Floater //Do NOT modify the Floater class! Make changes in the Spaceship c
     return isDead;
   }
 
+  public float getHp() {
+    return health;
+  }
+
+  public void takeDmg(int dmg) {
+    health -= dmg;
+    if (health <= 0)
+      isDead = true;
+  }
   public int getCenterX() {///access orientation stuff
     return (int)myCenterX;
   }
