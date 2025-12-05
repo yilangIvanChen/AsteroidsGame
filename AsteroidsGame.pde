@@ -1,20 +1,4 @@
-/*
-to do (or not to do):
- 
- -abilities: bullet spread (w/ hyperspace, med cd); funny sharp shadow dash; throwable nade
- -ability cooldowns
- 
- class tree planning
- Floater
- ^
- / \
- ship   enemy
- ^
- /    |    \
- normal fast,  slow,
- low hp  tanky
- 
- */
+
 
 ///////////////////////////////////VARIABLES/////////////////////////////////////////////////
 
@@ -38,6 +22,7 @@ int bulletsShot = 0;
 int reloadTimer = 0;
 
 double spawnRate = .0135;
+double spawnChance;
 double willSpawn;
 
 ////////////////////////////////DRAWING STUFF/////////////////////////////////////////////////
@@ -64,8 +49,13 @@ public void draw() {
   }
 
   willSpawn = Math.random();
-  if (willSpawn < spawnRate)
-    Enemies.add(new Enemy((int)(Math.random()*600)+150, (int)(Math.random()*700)+50));
+  if (willSpawn < spawnRate) {
+    spawnChance = Math.random();
+    if (spawnChance < .1)
+      Enemies.add(new EnemyFast((int)(Math.random()*600)+150, (int)(Math.random()*700)+50));
+    else
+      Enemies.add(new Enemy((int)(Math.random()*600)+150, (int)(Math.random()*700)+50));
+  }
   spawnRate += .000005;
 
   if (pressingW)///////////////////////////movement
