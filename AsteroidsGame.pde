@@ -4,6 +4,9 @@
 
 Star[][] Stars = new Star[8][8];
 PImage dead;
+PImage pot;
+PImage dash;
+PImage gone;
 
 ArrayList <Enemy> Enemies = new ArrayList <Enemy>();
 Spaceship Ship = new Spaceship();
@@ -21,6 +24,15 @@ boolean checkReload = false;
 int bulletsShot = 0;
 int reloadTimer = 0;
 
+boolean healCD = false;
+int healCDtimer = 0;
+boolean dashCD = false;
+int dashCDtimer = 0;
+boolean checkIFrames = false;
+int iFrames = 0;
+boolean hyperspaceCD = false;
+int hyperspaceCDtimer = 0;
+
 double spawnRate = .0135;
 double spawnChance;
 double willSpawn;
@@ -30,6 +42,9 @@ double willSpawn;
 
 public void setup() {
   dead = loadImage("skillissue.png");
+  pot = loadImage("pot.png");
+  dash = loadImage("dash.png");
+  gone = loadImage("gone.png");
   size(800, 800);
   background(150, 60, 255);
   for (int j = 0; j < 8; j++) {
@@ -75,8 +90,6 @@ public void draw() {
     bulletsShot++;
   }
 
-
-
   shootCDtimer++;//////////shoot cd
   if (shootCDtimer == 6) {
     shootCDtimer = 0;
@@ -92,6 +105,29 @@ public void draw() {
       reloadTimer = 0;
     }
   }
+
+  if (healCD) {
+    healCDtimer++;
+    if (healCDtimer == 900) {
+      healCD = false;
+      healCDtimer = 0;
+    }
+  }
+  if (hyperspaceCD) {
+    hyperspaceCDtimer++;
+    if (hyperspaceCDtimer == 150) {
+      hyperspaceCD = false;
+      hyperspaceCDtimer = 0;
+    }
+  }
+  if (dashCD) {
+    dashCDtimer++;
+    if (dashCDtimer == 270) {
+      dashCD = false;
+      dashCDtimer = 0;
+    }
+  }
+
 
   for (int i = pew.size()-1; i >= 0; i--) {
     if (pew.size() > 0) {
@@ -111,11 +147,27 @@ public void draw() {
   }
 
   for (int i = Enemies.size()-1; i >= 0; i--) {
-    if (Enemies.get(i).checkCollide(Ship)) {
+    if (Enemies.get(i).checkCollide(Ship) && !checkIFrames) {
       Ship.takeDmg(5);
+      Enemies.get(i).takeDmg(20);
+    } else if (Enemies.get(i).checkCollide(Ship) && checkIFrames) {
+      Enemies.get(i).takeDmg(10);
+      Enemies.get(i).dmgTaken();
+    }
+    if (Enemies.get(i).checkDead()) {
       Enemies.remove(i);
       break;
     }
+
+    if (checkIFrames) {
+      iFrames++;
+      if (iFrames == 45) {
+        checkIFrames = false;
+        iFrames = 0;
+      }
+    } else
+      Ship.limitSpeed();
+
     for (int j = pew.size()-1; j >= 0; j--) {
       if (Enemies.get(i).checkCollide(pew.get(j))) {
         Enemies.get(i).takeDmg(5);
@@ -149,7 +201,23 @@ public void draw() {
   fill(#59FF39);
   rect(53, 5+90*((100-Ship.getHp())/100), 42, 90*(Ship.getHp()/100));
 
-  if (Ship.getHp() <= 0) {
+  image(pot, 10, 135, width/10, height/7.5);//////////////ability CD
+  noStroke();
+  fill(50, 50, 50, 100);
+  if (healCD)
+    rect(5, 145+90*((float)healCDtimer/900), 90, 90*((900-(float)healCDtimer)/900));
+  image(gone, 10, 280, width/10, height/9);
+  noStroke();
+  fill(50, 50, 50, 100);
+  if (hyperspaceCD)
+    rect(5, 280+90*((float)hyperspaceCDtimer/150), 90, 90*((150-(float)hyperspaceCDtimer)/150));
+  image(dash, 3, 430, width/8.5, height/8);
+  noStroke();
+  fill(50, 50, 50, 100);
+  if (dashCD)
+    rect(5, 440+90*((float)dashCDtimer/270), 90, 90*((270-(float)dashCDtimer)/270));
+
+  if (Ship.getHp() <= 0) {/////////////death screen
     image(dead, -200, 0, width*1.8, height);
     fill(0);
     textSize(50);
@@ -163,22 +231,30 @@ public void draw() {
 
 
 public void keyPressed() {
-  if (key == 'w')
+  if (key == 'w' && !checkIFrames)
     pressingW = true;
-  if (key == 's')
+  if (key == 's' && !checkIFrames)
     pressingS = true;
   if (key == 'a')
     pressingA = true;
   if (key == 'd')
     pressingD = true;
-  if (key == 'q') {
-    Ship.setCenterX((int)(Math.random()*750)+25);
-    Ship.setCenterY((int)(Math.random()*750)+25);
-    Ship.setDirection(Math.random()*360);
+  if (key == 'e' && !hyperspaceCD) {
+    Ship.hyperspace();
+    hyperspaceCD = true;
+  }
+  if (key == 'q' && !healCD) {
+    Ship.heal(50);
+    healCD = true;
+  }
+  if (key == 'f' && !dashCD) {
     Ship.setSpeedX(0);
     Ship.setSpeedY(0);
+    Ship.accelerate(11);
+    checkIFrames = true;
+    dashCD = true;
   }
-  if (key == ' ')
+  if (key == ' ' && !checkIFrames)
     pressingSpace = true;
 }
 
