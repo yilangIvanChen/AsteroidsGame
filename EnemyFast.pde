@@ -11,7 +11,7 @@ class EnemyFast extends Enemy {
     myXspeed = 0;
     myYspeed = 0;
     myPointDirection = 0;
-    myColor = #F7C91E;
+    myColor = #FFE689;
     myStroke = #DBB118;
   }
 }
