@@ -1,6 +1,6 @@
 class Spaceship extends Floater {
   public Spaceship() {
-    health = 100;
+    health = 10000;
     isDead = false;
     corners = 14;
     xCorners = new int[]{-28, -24, -24, -20, -20, -16, -16, 20, 20, 8, -16, -24, -24, -28};
@@ -25,7 +25,7 @@ class Spaceship extends Floater {
       myYspeed += .07;
   }
 
-  public void move() {
+  public void limitSpeed() {
     if (myXspeed > 4)////////////////////limits speed to my thing playable
       myXspeed = 4;
     if (myXspeed < -3)
@@ -34,6 +34,19 @@ class Spaceship extends Floater {
       myYspeed = 4;
     if (myYspeed < -3)
       myYspeed = -3;
-    super.move();
+  }
+
+  public void hyperspace() {
+    myCenterX = (int)(Math.random()*650)+125;
+    myCenterY = (int)(Math.random()*750)+25;
+    myPointDirection = Math.random()*360;
+    myXspeed = 0;
+    myYspeed = 0;
+  }
+
+  public void heal(int heal) {
+    health += heal;
+    if (health > 100)
+      health = 100;
   }
 }
